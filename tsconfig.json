@@ -3,6 +3,7 @@
     /* Language and Environment */
     "target": "ES2015",                                  /* Set the JavaScript language version for emitted JavaScript and include compatible library declarations. */
     "lib": ["ES2015", "dom"],                                        /* Specify a set of bundled library declaration files that describe the target runtime environment. */
+    "typeRoots": ["src/@types"],
 
     /* Modules */
     "module": "commonjs",                                /* Specify what module code is generated. */
