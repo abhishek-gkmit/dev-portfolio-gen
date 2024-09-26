@@ -23,7 +23,7 @@ function addDeveloper(developer: Developer): void {
   } else if (typeof developer.name !== 'string' || developer.name === '') {
     throw Error("Error: name property is either empty or it's type is not correct");
 
-  } else if (typeof developer.age !== 'number' || developer.age < 14 /* boys who are under 14 are not developers */) {
+  } else if (typeof developer.age !== 'number' || developer.age < 14) {
     throw Error("age is not right");
 
   } else if (typeof developer.isEmployed !== 'boolean') {
@@ -33,7 +33,7 @@ function addDeveloper(developer: Developer): void {
   ) {
     throw Error("skills are not right");
 
-  } else if (typeof developer.experience !== 'number' || developer.experience > developer.age - 14 /* developer's experience can not be greater than maximum experience */) {
+  } else if (typeof developer.experience !== 'number' || developer.experience > developer.age - 14) {
     throw Error("experience is not right");
 
   } else {
