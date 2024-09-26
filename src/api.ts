@@ -61,3 +61,14 @@ function validateProjects(projects: Project[]): void {
   // this function will validate the projects and throw an error if any project is invalid
 }
 
+function addSkill(devId: number, skill: string): boolean {
+  let developer = developers.find((dev) => dev.id === devId);
+
+  if (developer && !developer.skills.some((s) => s === skill)) {
+    // developer with devId exists and skill is not duplicate
+    developer.skills.push(skill);
+    return true;
+  }
+
+  return false;
+}
