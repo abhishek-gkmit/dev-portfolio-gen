@@ -18,7 +18,10 @@ const developers: Developer[] = [];
 
 function addDeveloper(developer: Developer): void {
   // validating developer based on type and empty data
-  if (typeof developer.name !== 'string' || developer.name === '') {
+  if (typeof developer.id !== 'number') {
+    throw Error("id is not correct");
+
+  } else if (typeof developer.name !== 'string' || developer.name === '') {
     // type of name is not string or it's value is empty
     // it's an error
     throw Error("Error: name property is either empty or it's type is not correct");
