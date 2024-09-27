@@ -113,4 +113,12 @@ function countCompletedProjects(devId: number) {
     },
     0,
   );
+
+function addProperty<T>(object: T, key: keyof T, value: any) {
+  if ((object as Object).hasOwnProperty(key)) {
+    object[key] = value;
+    return true;
+  }
+
+  return false;
 }
