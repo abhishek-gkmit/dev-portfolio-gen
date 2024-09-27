@@ -78,7 +78,7 @@ function addProject(devId: number, project: Project) {
   const developer = developers.find((dev) => dev.id === devId);
 
   if (!developer) {
-    throw Error(`Error: Deveoper with id: ${devId} does not exist`);
+    throw Error(`Error: Developer with id: ${devId} does not exist`);
   }
 
   if (validateProject(project)) {
@@ -86,4 +86,16 @@ function addProject(devId: number, project: Project) {
   }
 
   developer.projects.push(project);
+}
+
+function listProjects(devId: number) {
+  const developer = developers.find((dev) => dev.id === devId);
+
+  if (!developer) {
+    throw Error(`Error: Developer with id: ${devId} does not exist`);
+  }
+
+  const projectsList = developer.projects.map(({ projectName }) => projectName);
+
+  return projectsList;
 }
