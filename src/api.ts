@@ -150,6 +150,14 @@ function listSkills(devId: number) {
   return [...developer.skills];
 }
 
+function findDevelopersBySkill(searchWithskill: string) {
+  const devsWithSkill = developers.filter(({ skills }) => {
+    return skills.some((skill) => skill === searchWithskill);
+  });
+
+  return devsWithSkill;
+}
+
 function validateProject(project: Project): boolean {
   if (typeof project.projectName !== "string" || project.projectName === "") {
     return false;
