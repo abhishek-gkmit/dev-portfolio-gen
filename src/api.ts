@@ -1,30 +1,7 @@
 const developers: Developer[] = [];
 
 function addDeveloper(developer: Developer): void {
-  // validating developer
-  if (typeof developer.id !== "number") {
-    throw Error("Error: id is not correct");
-  } else if (typeof developer.name !== "string" || developer.name === "") {
-    throw Error(
-      "Error: name property is either empty or it's type is not correct",
-    );
-  } else if (typeof developer.age !== "number" || developer.age < 14) {
-    throw Error("Error: age is not right");
-  } else if (typeof developer.isEmployed !== "boolean") {
-    throw Error("Error: employement is not boolean type");
-  } else if (
-    !Array.isArray(developer.skills) ||
-    developer.skills.some((skill) => typeof skill !== "string" || skill === "")
-  ) {
-    throw Error("Error: skills are not right");
-  } else if (
-    typeof developer.experience !== "number" ||
-    developer.experience > developer.age - 14
-  ) {
-    throw Error("Error: experience is not right");
-  } else if (developer.projects.every((project) => validateProject(project))) {
-    throw Error("Error: projects are not valid");
-  }
+  validateDeveloper(developer);
 
   // removing duplicate entries from skills array
   developer.skills = developer.skills.reduce<Array<string>>(
@@ -38,6 +15,33 @@ function addDeveloper(developer: Developer): void {
   );
 
   developers.push(developer);
+}
+
+function validateDeveloper(developer: Developer) {
+  // validating developer
+  if (typeof developer.id !== "number") {
+    throw Error("Error: ID should be a number");
+  } else if (typeof developer.name !== "string" || developer.name === "") {
+    throw Error("Error: Name is either empty or is invalid");
+  } else if (typeof developer.age !== "number" || developer.age < 14) {
+    throw Error("Error: Age should be a number above 14");
+  } else if (typeof developer.isEmployed !== "boolean") {
+    throw Error("Error: Please select you are employed or not");
+  } else if (
+    !Array.isArray(developer.skills) ||
+    developer.skills.some((skill) => typeof skill !== "string" || skill === "")
+  ) {
+    throw Error("Error: Skills are invalid");
+  } else if (
+    typeof developer.experience !== "number" ||
+    developer.experience > developer.age - 14
+  ) {
+    throw Error(
+      "Error: Experience should be a number and less than or equal to your age - 14",
+    );
+  } else if (developer.projects.every((project) => validateProject(project))) {
+    throw Error("Error: Projects are not valid");
+  }
 }
 
 function addSkill(devId: number, newSkill: string): boolean {
