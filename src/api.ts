@@ -138,6 +138,18 @@ function sortDevelopersByEmployementAndAge(
   return developers;
 }
 
+function listSkills(devId: number) {
+  const developer = developers.find(
+    ({ id: existingDevId }) => existingDevId === devId,
+  );
+
+  if (!developer) {
+    return;
+  }
+
+  return [...developer.skills];
+}
+
 function validateProject(project: Project): boolean {
   if (typeof project.projectName !== "string" || project.projectName === "") {
     return false;
