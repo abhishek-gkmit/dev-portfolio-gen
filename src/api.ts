@@ -1,4 +1,4 @@
-const developers: Developer[] = [];
+let developers: Developer[] = [];
 
 function addDeveloper(developer: Developer): void {
   validateDeveloper(developer);
@@ -99,6 +99,23 @@ function updateDeveloper(
     ...updates,
     id: developers[developerIndex].id,
   };
+}
+
+function removeDeveloperByCondition(
+  callbackCondition: (developer: Developer) => boolean,
+) {
+  const deleted: Developer[] = [];
+
+  developers = developers.filter((developer) => {
+    if (callbackCondition(developer)) {
+      deleted.push(developer);
+      return false;
+    }
+
+    return true;
+  });
+
+  return deleted;
 }
 
 function validateProject(project: Project): boolean {
