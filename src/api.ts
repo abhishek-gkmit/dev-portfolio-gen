@@ -68,10 +68,15 @@ function updateSkill(
     ({ id: existingDevId }) => existingDevId === devId,
   );
 
+  if (!developer) {
+    return false;
+  }
+
+  const { skills } = developer;
+
   if (
-    developer &&
-    !developer.skills.some((existingSkill) => existingSkill === newSkill) &&
-    developer.skills.some((existingSkill) => existingSkill === oldSkill)
+    !skills.some((existingSkill) => existingSkill === newSkill) &&
+    skills.some((existingSkill) => existingSkill === oldSkill)
   ) {
     developer.skills[
       developer.skills.findIndex((existingSkill) => existingSkill === oldSkill)
