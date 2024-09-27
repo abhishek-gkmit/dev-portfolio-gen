@@ -118,6 +118,26 @@ function removeDeveloperByCondition(
   return deleted;
 }
 
+function sortDevelopersByEmployementAndAge(
+  isEmployed: boolean,
+  ageAscending = true,
+) {
+  developers.sort(function compare(firstDeveloper, secondDeveloper) {
+    if (
+      firstDeveloper.isEmployed === isEmployed &&
+      secondDeveloper.isEmployed === isEmployed
+    ) {
+      return ageAscending
+        ? secondDeveloper.age - firstDeveloper.age
+        : firstDeveloper.age - secondDeveloper.age;
+    }
+
+    return firstDeveloper.isEmployed === isEmployed ? -1 : 1;
+  });
+
+  return developers;
+}
+
 function validateProject(project: Project): boolean {
   if (typeof project.projectName !== "string" || project.projectName === "") {
     return false;
