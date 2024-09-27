@@ -158,6 +158,22 @@ function findDevelopersBySkill(searchWithskill: string) {
   return devsWithSkill;
 }
 
+function cloneDeveloper(devId: number) {
+  const developer = developers.find(
+    ({ id: existingDevId }) => existingDevId === devId,
+  );
+
+  if (!developer) {
+    throw Error(`Error: Developer with id: ${devId} does not exist`);
+  }
+
+  return {
+    ...developer,
+    skills: [...developer.skills],
+    projects: developer.projects.map((project) => ({ ...project })),
+  };
+}
+
 function validateProject(project: Project): boolean {
   if (typeof project.projectName !== "string" || project.projectName === "") {
     return false;
