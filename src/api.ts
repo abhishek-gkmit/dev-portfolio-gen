@@ -78,9 +78,8 @@ function updateSkill(
     !skills.some((existingSkill) => existingSkill === newSkill) &&
     skills.some((existingSkill) => existingSkill === oldSkill)
   ) {
-    developer.skills[
-      developer.skills.findIndex((existingSkill) => existingSkill === oldSkill)
-    ] = newSkill;
+    skills[skills.findIndex((existingSkill) => existingSkill === oldSkill)] =
+      newSkill;
     return true;
   }
 
@@ -164,9 +163,7 @@ function findDevelopersBySkill(searchWithskill: string) {
 }
 
 function cloneDeveloper(devId: number) {
-  const developer = developers.find(
-    ({ id: existingDevId }) => existingDevId === devId,
-  );
+  const developer = developers.find(({ id }) => id === devId);
 
   if (!developer) {
     throw Error(`Error: Developer with id: ${devId} does not exist`);
