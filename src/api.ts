@@ -99,3 +99,13 @@ function listProjects(devId: number) {
 
   return projectsList;
 }
+
+function countCompletedProjects(devId: number) {
+  const developer = developers.find((dev) => dev.id === devId);
+
+  if (!developer) {
+    throw Error(`Error: Developer with id: ${devId} does not exist`);
+  }
+
+  return developer.projects.length;
+}
