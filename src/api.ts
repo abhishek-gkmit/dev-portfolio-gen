@@ -73,3 +73,17 @@ function validateProject(project: Project): boolean {
 
   return true;
 }
+
+function addProject(devId: number, project: Project) {
+  const developer = developers.find((dev) => dev.id === devId);
+
+  if (!developer) {
+    throw Error(`Error: Deveoper with id: ${devId} does not exist`);
+  }
+
+  if (validateProject(project)) {
+    throw Error("Error: Project is not valid");
+  }
+
+  developer.projects.push(project);
+}
