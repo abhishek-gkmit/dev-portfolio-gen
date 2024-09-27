@@ -74,6 +74,46 @@ function validateProject(project: Project): boolean {
   return true;
 }
 
+function addProject(devId: number, project: Project) {
+  const developer = developers.find((dev) => dev.id === devId);
+
+  if (!developer) {
+    throw Error(`Error: Developer with id: ${devId} does not exist`);
+  }
+
+  if (validateProject(project)) {
+    throw Error("Error: Project is not valid");
+  }
+
+  developer.projects.push(project);
+}
+
+function listProjects(devId: number) {
+  const developer = developers.find((dev) => dev.id === devId);
+
+  if (!developer) {
+    throw Error(`Error: Developer with id: ${devId} does not exist`);
+  }
+
+  const projectsList = developer.projects.map(({ projectName }) => projectName);
+
+  return projectsList;
+}
+
+function countCompletedProjects(devId: number) {
+  const developer = developers.find((dev) => dev.id === devId);
+
+  if (!developer) {
+    throw Error(`Error: Developer with id: ${devId} does not exist`);
+  }
+
+  return developer.projects.reduce(
+    (completedProjectsCount, { isCompleted }) => {
+      return isCompleted ? completedProjectsCount + 1 : completedProjectsCount;
+    },
+    0,
+  );
+
 function addProperty<T>(object: T, key: keyof T, value: any) {
   if ((object as Object).hasOwnProperty(key)) {
     object[key] = value;
