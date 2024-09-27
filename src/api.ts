@@ -82,6 +82,25 @@ function updateSkill(
   return false;
 }
 
+function updateDeveloper(
+  devId: number,
+  updates: Partial<Omit<Developer, "id">>,
+) {
+  const developerIndex = developers.findIndex(
+    ({ id: existingDevId }) => existingDevId === devId,
+  );
+
+  if (developerIndex === -1) {
+    throw Error("Error: developer with devId does not exist");
+  }
+
+  developers[developerIndex] = {
+    ...developers[developerIndex],
+    ...updates,
+    id: developers[developerIndex].id,
+  };
+}
+
 function validateProject(project: Project): boolean {
   if (typeof project.projectName !== "string" || project.projectName === "") {
     return false;
