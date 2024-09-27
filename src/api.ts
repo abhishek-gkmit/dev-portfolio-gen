@@ -59,6 +59,29 @@ function addSkill(devId: number, newSkill: string): boolean {
   return false;
 }
 
+function updateSkill(
+  devId: number,
+  oldSkill: string,
+  newSkill: string,
+): boolean {
+  const developer = developers.find(
+    ({ id: existingDevId }) => existingDevId === devId,
+  );
+
+  if (
+    developer &&
+    !developer.skills.some((existingSkill) => existingSkill === newSkill) &&
+    developer.skills.some((existingSkill) => existingSkill === oldSkill)
+  ) {
+    developer.skills[
+      developer.skills.findIndex((existingSkill) => existingSkill === oldSkill)
+    ] = newSkill;
+    return true;
+  }
+
+  return false;
+}
+
 function validateProject(project: Project): boolean {
   if (typeof project.projectName !== "string" || project.projectName === "") {
     return false;
