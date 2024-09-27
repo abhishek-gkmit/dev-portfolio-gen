@@ -107,5 +107,10 @@ function countCompletedProjects(devId: number) {
     throw Error(`Error: Developer with id: ${devId} does not exist`);
   }
 
-  return developer.projects.length;
+  return developer.projects.reduce(
+    (completedProjectsCount, { isCompleted }) => {
+      return isCompleted ? completedProjectsCount + 1 : completedProjectsCount;
+    },
+    0,
+  );
 }
