@@ -18,7 +18,6 @@ function addDeveloper(developer: Developer): void {
 }
 
 function validateDeveloper(developer: Developer) {
-  // validating developer
   if (typeof developer.id !== "number") {
     throw Error("Error: ID should be a number");
   } else if (typeof developer.name !== "string" || developer.name === "") {
@@ -74,11 +73,6 @@ function validateProject(project: Project): boolean {
   return true;
 }
 
-function addProperty<T>(object: T, key: keyof T, value: any) {
-  if ((object as Object).hasOwnProperty(key)) {
-    object[key] = value;
-    return true;
-  }
-
-  return false;
+function addProperty(object: AnyObject, key: ObjectKey, value: any) {
+  object[key] = value;
 }
