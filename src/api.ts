@@ -18,7 +18,6 @@ function addDeveloper(developer: Developer): void {
 }
 
 function validateDeveloper(developer: Developer) {
-  // validating developer
   if (typeof developer.id !== "number") {
     throw Error("Error: ID should be a number");
   } else if (typeof developer.name !== "string" || developer.name === "") {
@@ -45,18 +44,15 @@ function validateDeveloper(developer: Developer) {
 }
 
 function addSkill(devId: number, newSkill: string): boolean {
-  const developer = developers.find((dev) => dev.id === devId);
+  return !!developers.find((dev) => {
+    if (dev.id === devId) {
+      !dev.skills.some((existingSkill) => existingSkill === newSkill) &&
+        dev.skills.push(newSkill);
+      return true;
+    }
 
-  // checking if developer with devId and newSkill does not exists
-  if (
-    developer &&
-    !developer.skills.some((existingSkill) => existingSkill === newSkill)
-  ) {
-    developer.skills.push(newSkill);
-    return true;
-  }
-
-  return false;
+    return false;
+  });
 }
 
 function updateSkill(
@@ -74,16 +70,16 @@ function updateSkill(
 
   const { skills } = developer;
 
-  if (
+  return !!(
     !skills.some((existingSkill) => existingSkill === newSkill) &&
-    skills.some((existingSkill) => existingSkill === oldSkill)
-  ) {
-    skills[skills.findIndex((existingSkill) => existingSkill === oldSkill)] =
-      newSkill;
-    return true;
-  }
-
-  return false;
+    skills.some((existingSkill, index) => {
+      if (existingSkill === oldSkill) {
+        skills[index] = newSkill;
+        return true;
+      }
+      return false;
+    })
+  );
 }
 
 function updateDeveloper(
