@@ -1,4 +1,4 @@
-const developers: Developer[] = [];
+let developers: Developer[] = [];
 
 function addDeveloper(developer: Developer): void {
   validateDeveloper(developer);
@@ -18,7 +18,6 @@ function addDeveloper(developer: Developer): void {
 }
 
 function validateDeveloper(developer: Developer) {
-  // validating developer
   if (typeof developer.id !== "number") {
     throw Error("Error: ID should be a number");
   } else if (typeof developer.name !== "string" || developer.name === "") {
@@ -45,18 +44,154 @@ function validateDeveloper(developer: Developer) {
 }
 
 function addSkill(devId: number, newSkill: string): boolean {
-  const developer = developers.find((dev) => dev.id === devId);
+  return !!developers.find((dev) => {
+    if (dev.id === devId) {
+      !dev.skills.some((existingSkill) => existingSkill === newSkill) &&
+        dev.skills.push(newSkill);
+      return true;
+    }
 
-  // checking if developer with devId and newSkill does not exists
-  if (
-    developer &&
-    !developer.skills.some((existingSkill) => existingSkill === newSkill)
-  ) {
-    developer.skills.push(newSkill);
-    return true;
+    return false;
+  });
+}
+
+function updateSkill(
+  devId: number,
+  oldSkill: string,
+  newSkill: string,
+): boolean {
+  const developer = developers.find(
+    ({ id: existingDevId }) => existingDevId === devId,
+  );
+
+  if (!developer) {
+    return false;
   }
 
-  return false;
+  const { skills } = developer;
+
+  return !!(
+    !skills.some((existingSkill) => existingSkill === newSkill) &&
+    skills.some((existingSkill, index) => {
+      if (existingSkill === oldSkill) {
+        skills[index] = newSkill;
+        return true;
+      }
+      return false;
+    })
+  );
+}
+
+function updateDeveloper(
+  devId: number,
+  updates: Partial<Omit<Developer, "id">>,
+) {
+  const developerIndex = developers.findIndex(
+    ({ id: existingDevId }) => existingDevId === devId,
+  );
+
+  if (developerIndex === -1) {
+    throw Error("Error: developer with devId does not exist");
+  }
+
+  developers[developerIndex] = {
+    ...developers[developerIndex],
+    ...updates,
+    id: developers[developerIndex].id,
+  };
+}
+
+function removeDeveloperByCondition(
+  callbackCondition: (developer: Developer) => boolean,
+) {
+  const deleted: Developer[] = [];
+
+  developers = developers.filter((developer) => {
+    if (callbackCondition(developer)) {
+      deleted.push(developer);
+      return false;
+    }
+
+    return true;
+  });
+
+  return deleted;
+}
+
+function sortDevelopersByEmployementAndAge(
+  isEmployed: boolean,
+  ageAscending = true,
+) {
+  developers.sort(function compare(firstDeveloper, secondDeveloper) {
+    if (
+      firstDeveloper.isEmployed === isEmployed &&
+      secondDeveloper.isEmployed === isEmployed
+    ) {
+      return ageAscending
+        ? secondDeveloper.age - firstDeveloper.age
+        : firstDeveloper.age - secondDeveloper.age;
+    }
+
+    return firstDeveloper.isEmployed === isEmployed ? -1 : 1;
+  });
+
+  return developers;
+}
+
+function listSkills(devId: number) {
+  const developer = developers.find(
+    ({ id: existingDevId }) => existingDevId === devId,
+  );
+
+  if (!developer) {
+    return;
+  }
+
+  return [...developer.skills];
+}
+
+function findDevelopersBySkill(searchWithskill: string) {
+  const devsWithSkill = developers.filter(({ skills }) => {
+    return skills.some((skill) => skill === searchWithskill);
+  });
+
+  return devsWithSkill;
+}
+
+function cloneDeveloper(devId: number) {
+  const developer = developers.find(({ id }) => id === devId);
+
+  if (!developer) {
+    throw Error(`Error: Developer with id: ${devId} does not exist`);
+  }
+
+  return cloneObject(developer);
+}
+
+function cloneObject(object: AnyObject): AnyObject {
+  if (object === null) {
+    return object;
+  }
+
+  if (Array.isArray(object)) {
+    let copy = [];
+    for (const value of object) {
+      copy.push(cloneObject(value));
+    }
+    console.log("second return");
+    return copy;
+  }
+
+  if (typeof object === "object") {
+    let copy: AnyObject = {};
+    for (const key of Object.keys(object)) {
+      copy[key] = cloneObject(object[key]);
+    }
+    console.log("third return");
+    return copy;
+  }
+
+  return object;
 }
 
 function validateProject(project: Project): boolean {
